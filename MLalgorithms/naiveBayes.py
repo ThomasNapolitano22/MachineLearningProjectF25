@@ -4,14 +4,14 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
 
 airbnbData = pd.read_csv('../finalizedData/finalizedData.csv')
-print(airbnbData.columns)
+
 
 airbnbData_randomized = airbnbData.sample(frac=1, random_state=42)
 airbnbData_randomized = airbnbData_randomized.reset_index(drop=True)
-print(airbnbData_randomized.columns)
+
 
 X = airbnbData_randomized.drop(columns="price_category")
-print(X.columns)
+
 y = airbnbData_randomized["price_category"]
 
 
@@ -29,24 +29,19 @@ X_enc = pd.get_dummies(X, columns=cat_cols, drop_first=True)
 
 
 
-print(X.head())
-print(y.head())
+
 
 X_train, X_test, y_train, y_test = train_test_split(X_enc, y, test_size=0.20, random_state=12, shuffle=True)
-print(X_train.shape)
-print(y_train.shape)
-print(X_test.shape)
-print(y_test.shape)
+
 
 model = GaussianNB()
 model.fit(X_train, y_train)
 modelPrediction = model.predict(X_test)
 
-print(modelPrediction)
-
-print(np.sum(modelPrediction == y_test))
+amountCorrect = np.sum(modelPrediction == y_test)
+print("Out of " + str (len(y_test)) + " tests. Naive Bayes correctly predicted " + str(amountCorrect) + " of them.")
 accuracy = np.sum(y_test == modelPrediction) / modelPrediction.size
-print(accuracy)
+print(f"Accuracy of our Naive Bayes Model: {accuracy * 100:.2f}%")
 
 
 # majority_class = y_test.value_counts().idxmax()
