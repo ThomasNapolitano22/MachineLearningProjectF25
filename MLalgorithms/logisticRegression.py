@@ -23,7 +23,7 @@ X_enc = pd.get_dummies(X, columns=cat_cols, drop_first=True)
 
 X_train, X_test, y_train, y_test = train_test_split(X_enc, y, test_size=0.20, random_state=12, shuffle=True)
 
-model = LogisticRegression(max_iter=10000)
+model = LogisticRegression(max_iter=100000)
 model.fit(X_train, y_train)
 
 modelPrediction = model.predict(X_test)
@@ -32,3 +32,9 @@ amountCorrect = np.sum(modelPrediction == y_test)
 print("Out of " + str (len(y_test)) + " tests. Logistic Regression correctly predicted " + str(amountCorrect) + " of them.")
 accuracy = np.sum(y_test == modelPrediction) / modelPrediction.size
 print(f"Accuracy of our Logistic Regression Model: {accuracy * 100:.2f}%")
+
+majority_class = y_test.value_counts().idxmax()
+baseline_accuracy = y_test.value_counts(normalize=True).max()
+
+print("Majority class:", majority_class)
+print("Baseline (majority class) accuracy:", baseline_accuracy)

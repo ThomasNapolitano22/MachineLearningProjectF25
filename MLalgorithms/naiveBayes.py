@@ -44,8 +44,8 @@ accuracy = np.sum(y_test == modelPrediction) / modelPrediction.size
 print(f"Accuracy of our Naive Bayes Model: {accuracy * 100:.2f}%")
 
 
-# majority_class = y_test.value_counts().idxmax()
-# baseline_accuracy = y_test.value_counts(normalize=True).max()
-#
-# print("Majority class:", majority_class)
-# print("Baseline (majority class) accuracy:", baseline_accuracy)
+majority_class = y_test.value_counts().idxmax()
+baseline_accuracy = y_test.value_counts(normalize=True).max()
+
+print("Majority class:", majority_class)
+print("Baseline (majority class) accuracy:", baseline_accuracy)
