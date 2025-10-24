@@ -37,4 +37,4 @@ majority_class = y_test.value_counts().idxmax()
 baseline_accuracy = y_test.value_counts(normalize=True).max()
 
 print("Majority class:", majority_class)
-print("Baseline (majority class) accuracy:", baseline_accuracy)
+print(f"Baseline accuracy: {baseline_accuracy * 100: .2f} %")
