@@ -15,7 +15,7 @@ X = airbnbData_randomized.drop(columns="price_category")
 y = airbnbData_randomized["price_category"]
 
 
-################################################################################
+##need to convert any non-numerical columns to numerics
 cat_cols = X.select_dtypes(include=['object']).columns.tolist()
 
 
@@ -25,7 +25,7 @@ if bool_cols:
 
 
 X_enc = pd.get_dummies(X, columns=cat_cols, drop_first=True)
-############################################################
+
 
 
 
