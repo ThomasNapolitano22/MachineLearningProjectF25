@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+from matplotlib import pyplot as plt
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 
@@ -39,3 +41,16 @@ baseline_accuracy = y_test.value_counts(normalize=True).max()
 
 print("Majority class:", majority_class)
 print(f"Baseline accuracy: {baseline_accuracy * 100: .2f} %")
+
+########################################################################################
+#Graphs/Diagrams
+########################################################################################
+
+#Confusion Matrix
+cm = confusion_matrix(y_test, modelPrediction)
+displaycm = ConfusionMatrixDisplay(cm, display_labels=model.classes_)
+displaycm.plot(cmap="Reds", colorbar=False)
+plt.title("Confusion Matrix of the Logistic Regression Model")
+plt.tight_layout()
+plt.savefig("../ModelsandDiagrams/LogisticRegressionConfusionMatrix.png")
+plt.show()

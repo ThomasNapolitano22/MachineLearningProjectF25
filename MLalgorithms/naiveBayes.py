@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
 
 airbnbData = pd.read_csv('../finalizedData/finalizedData.csv')
 
@@ -49,3 +51,18 @@ baseline_accuracy = y_test.value_counts(normalize=True).max()
 
 print("Majority class:", majority_class)
 print(f"Baseline accuracy: {baseline_accuracy * 100: .2f} %")
+
+########################################################################################
+#Graphs/Diagrams
+########################################################################################
+
+#Confusion Matrix
+cm = confusion_matrix(y_test, modelPrediction)
+displaycm = ConfusionMatrixDisplay(cm, display_labels=model.classes_)
+displaycm.plot(cmap="Reds", colorbar=False)
+plt.title("Confusion Matrix of the Naive Bayes Model")
+plt.tight_layout()
+plt.savefig("../ModelsandDiagrams/NaiveBayesConfusionMatrix.png")
+plt.show()
+
+
