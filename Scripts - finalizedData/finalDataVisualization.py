@@ -22,16 +22,15 @@ plt.show()
 #Map Creation
 ##############################################################################
 
-##############################################################################
-#Neighborhood Overlay
+    ##############################################################################
+    #Map Creation (Methods)
+    ##############################################################################
+        #Neighborhood Overlay
 neighborhoodPath = "../finalizedData/boston_neighborhood_boundaries.geojson"
 with open(neighborhoodPath) as f:
     neighborhood_data = json.load(f)
-##############################################################################
 
-map = folium.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
-
-
+        #Colorization Method
 def colorization(category):
     if category == 'Budget':
         return "green"
@@ -39,6 +38,11 @@ def colorization(category):
         return "yellow"
     elif category == 'Expensive':
         return "red"
+##############################################################################
+#First Map (Overview of all the categories)
+##############################################################################
+
+map1 = folium.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
 
 for listings, row in finalizedData.iterrows():
     folium.CircleMarker(
@@ -48,15 +52,17 @@ for listings, row in finalizedData.iterrows():
         fill=True,
         fill_opacity=0.7,
         opacity=1
-    ).add_to(map)
+    ).add_to(map1)
 
 folium.GeoJson(
     neighborhood_data,
     name='Boston Neighborhood Boundaries',
     style_function=lambda x: {'fillColor': 'blue', 'color': 'black', 'weight': 1}
-).add_to(map)
-map.save("../ModelsandDiagrams/mapOfDataCategoryDistribution.html")
+).add_to(map1)
+map1.save("../ModelsandDiagrams/mapOfDataCategoryDistribution.html")
 
+##############################################################################
+#Second Map (Just Private Rooms)
 ##############################################################################
 map2 = folium.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
 
@@ -73,6 +79,8 @@ for listings, row in finalizedData.iterrows():
 map2.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(PrivateRooms).html")
 
 ##############################################################################
+#Third Map (Entire Homes/Apts)
+##############################################################################
 map3 = folium.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
 
 for listings, row in finalizedData.iterrows():
@@ -85,6 +93,8 @@ for listings, row in finalizedData.iterrows():
             fill_opacity=0.7,
             opacity=1
         ).add_to(map3)
+
+
 map3.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(EntireHomeOrApt).html")
 ########################################################################################
 
