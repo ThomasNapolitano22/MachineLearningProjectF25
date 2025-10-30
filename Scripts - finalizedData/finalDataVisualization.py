@@ -76,6 +76,13 @@ for listings, row in finalizedData.iterrows():
             fill_opacity=0.7,
             opacity=1
         ).add_to(map2)
+
+folium.GeoJson(
+    neighborhood_data,
+    name='Boston Neighborhood Boundaries',
+    style_function=lambda x: {'fillColor': 'blue', 'color': 'black', 'weight': 1}
+).add_to(map2)
+
 map2.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(PrivateRooms).html")
 
 ##############################################################################
@@ -93,6 +100,12 @@ for listings, row in finalizedData.iterrows():
             fill_opacity=0.7,
             opacity=1
         ).add_to(map3)
+
+folium.GeoJson(
+    neighborhood_data,
+    name='Boston Neighborhood Boundaries',
+    style_function=lambda x: {'fillColor': 'blue', 'color': 'black', 'weight': 3}
+).add_to(map3)
 
 
 map3.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(EntireHomeOrApt).html")
