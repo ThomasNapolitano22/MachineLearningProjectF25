@@ -43,3 +43,35 @@ for listings, row in finalizedData.iterrows():
 
 
 map.save("../ModelsandDiagrams/mapOfDataCategoryDistribution.html")
+
+##############################################################################
+map2 = folium.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
+
+for listings, row in finalizedData.iterrows():
+    if(row['room_type'] == "Private room"):
+        folium.CircleMarker(
+            location=(row['latitude'], row['longitude']),
+            radius=5,
+            color=colorization(row['price_category']),
+            fill=True,
+            fill_opacity=0.7,
+            opacity=1
+        ).add_to(map2)
+map2.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(PrivateRooms).html")
+
+##############################################################################
+map3 = folium.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
+
+for listings, row in finalizedData.iterrows():
+    if(row['room_type'] == "Entire home/apt"):
+        folium.CircleMarker(
+            location=(row['latitude'], row['longitude']),
+            radius=5,
+            color=colorization(row['price_category']),
+            fill=True,
+            fill_opacity=0.7,
+            opacity=1
+        ).add_to(map3)
+map3.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(EntireHomeOrApt).html")
+
+
