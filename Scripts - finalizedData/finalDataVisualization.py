@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import folium as folium
+import leafmap.foliumap as leafmap
 import json
 
 finalizedData = pd.read_csv('../finalizedData/finalizedData.csv')
@@ -38,11 +39,17 @@ def colorization(category):
         return "yellow"
     elif category == 'Expensive':
         return "red"
+
+legend_dictionary = {
+    "Budget": "green",
+    "Average": "yellow",
+    "Expensive": "red"
+}
 ##############################################################################
 #First Map (Overview of all the categories)
 ##############################################################################
 
-map1 = folium.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
+map1 = leafmap.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
 
 for listings, row in finalizedData.iterrows():
     folium.CircleMarker(
@@ -59,12 +66,14 @@ folium.GeoJson(
     name='Boston Neighborhood Boundaries',
     style_function=lambda x: {'fillColor': 'blue', 'color': 'black', 'weight': 1}
 ).add_to(map1)
+
+map1.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
 map1.save("../ModelsandDiagrams/mapOfDataCategoryDistribution.html")
 
 ##############################################################################
 #Second Map (Just Private Rooms)
 ##############################################################################
-map2 = folium.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
+map2 = leafmap.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
 
 for listings, row in finalizedData.iterrows():
     if(row['room_type'] == "Private room"):
@@ -82,13 +91,13 @@ folium.GeoJson(
     name='Boston Neighborhood Boundaries',
     style_function=lambda x: {'fillColor': 'blue', 'color': 'black', 'weight': 1}
 ).add_to(map2)
-
+map2.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
 map2.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(PrivateRooms).html")
 
 ##############################################################################
 #Third Map (Entire Homes/Apts)
 ##############################################################################
-map3 = folium.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
+map3 = leafmap.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
 
 for listings, row in finalizedData.iterrows():
     if(row['room_type'] == "Entire home/apt"):
@@ -106,8 +115,7 @@ folium.GeoJson(
     name='Boston Neighborhood Boundaries',
     style_function=lambda x: {'fillColor': 'blue', 'color': 'black', 'weight': 3}
 ).add_to(map3)
-
-
+map3.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
 map3.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(EntireHomeOrApt).html")
 ########################################################################################
 
