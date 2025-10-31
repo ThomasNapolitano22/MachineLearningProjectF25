@@ -61,11 +61,19 @@ for listings, row in finalizedData.iterrows():
         opacity=1
     ).add_to(map1)
 
-folium.GeoJson(
-    neighborhood_data,
-    name='Boston Neighborhood Boundaries',
-    style_function=lambda x: {'fillColor': 'blue', 'color': 'black', 'weight': 1}
-).add_to(map1)
+map1.add_geojson(
+    in_geojson = neighborhoodPath,
+    layer_name = "Neighborhoods"
+)
+map1.add_labels(
+    data = neighborhoodPath,
+    column = "name",
+    font_size= "12pt",
+    font_color = "Black",
+    font_weight = "bold",
+    font_family= "Times New Roman"
+)
+
 
 map1.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
 map1.save("../ModelsandDiagrams/mapOfDataCategoryDistribution.html")
@@ -86,12 +94,25 @@ for listings, row in finalizedData.iterrows():
             opacity=1
         ).add_to(map2)
 
-folium.GeoJson(
-    neighborhood_data,
-    name='Boston Neighborhood Boundaries',
-    style_function=lambda x: {'fillColor': 'blue', 'color': 'black', 'weight': 1}
-).add_to(map2)
+
+
+map2.add_geojson(
+    in_geojson = neighborhoodPath,
+    layer_name = "Neighborhoods"
+)
+map2.add_labels(
+    data = neighborhoodPath,
+    column = "name",
+    font_size= "12pt",
+    font_color = "Black",
+    font_weight = "bold",
+    font_family="Times New Roman"
+
+)
+
+
 map2.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
+
 map2.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(PrivateRooms).html")
 
 ##############################################################################
@@ -110,11 +131,22 @@ for listings, row in finalizedData.iterrows():
             opacity=1
         ).add_to(map3)
 
-folium.GeoJson(
-    neighborhood_data,
-    name='Boston Neighborhood Boundaries',
-    style_function=lambda x: {'fillColor': 'blue', 'color': 'black', 'weight': 3}
-).add_to(map3)
+
+
+map3.add_geojson(
+    in_geojson = neighborhoodPath,
+    layer_name = "Neighborhoods"
+)
+map3.add_labels(
+    data = neighborhoodPath,
+    column = "name",
+    font_size= "12pt",
+    font_color = "Black",
+    font_weight = "bold",
+    font_family="Times New Roman"
+
+)
+
 map3.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
 map3.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(EntireHomeOrApt).html")
 ########################################################################################
