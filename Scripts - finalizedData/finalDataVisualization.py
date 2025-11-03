@@ -28,9 +28,13 @@ plt.show()
     #Map Creation (Methods)
     ##############################################################################
         #Neighborhood Overlay
-neighborhoodPath = "../finalizedData/boston_neighborhood_boundaries.geojson"
-with open(neighborhoodPath) as f:
+neighborhoodPathNoCounts = "../finalizedData/bostonNeighborhoodBoundariesCleanedNoCounts.geojson"
+with open(neighborhoodPathNoCounts) as f:
     neighborhood_data = json.load(f)
+
+neighborhoodPathCounts = "../finalizedData/bostonNeighborhoodBoundariesCleaned.geojson"
+with open(neighborhoodPathCounts) as f:
+    neighborhoodData_test = json.load(f)
 
         #Colorization Method
 def colorization(category):
@@ -63,11 +67,11 @@ for listings, row in finalizedData.iterrows():
     ).add_to(map1)
 
 map1.add_geojson(
-    in_geojson = neighborhoodPath,
+    in_geojson = neighborhoodPathCounts,
     layer_name = "Neighborhoods"
 )
 map1.add_labels(
-    data = neighborhoodPath,
+    data = neighborhoodPathCounts,
     column = "name",
     font_size= "12pt",
     font_color = "Black",
@@ -99,11 +103,11 @@ for listings, row in finalizedData.iterrows():
 
 
 map2.add_geojson(
-    in_geojson = neighborhoodPath,
+    in_geojson = neighborhoodPathNoCounts,
     layer_name = "Neighborhoods"
 )
 map2.add_labels(
-    data = neighborhoodPath,
+    data = neighborhoodPathNoCounts,
     column = "name",
     font_size= "12pt",
     font_color = "Black",
@@ -136,11 +140,11 @@ for listings, row in finalizedData.iterrows():
 
 
 map3.add_geojson(
-    in_geojson = neighborhoodPath,
+    in_geojson = neighborhoodPathNoCounts,
     layer_name = "Neighborhoods"
 )
 map3.add_labels(
-    data = neighborhoodPath,
+    data = neighborhoodPathNoCounts,
     column = "name",
     font_size= "12pt",
     font_color = "Black",
