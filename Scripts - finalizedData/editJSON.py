@@ -16,6 +16,12 @@ with open('../finalizedData/boston_neighborhood_boundaries.geojson', 'r') as fil
 with open('../finalizedData/bostonNeighborhoodBoundariesCleanedNoCounts.geojson', 'w') as newfile:
     json.dump(bostonNeighborhoodBoundariesCleaned, newfile)
 
+with open('../finalizedData/bostonNeighborhoodBoundariesCleanedNoCounts.geojson', 'r') as file:
+    bostonNeighborhoodBoundariesEntireHomeCount = json.load(file)
+
+with open('../finalizedData/bostonNeighborhoodBoundariesCleanedNoCounts.geojson', 'r') as file:
+    bostonNeighborhoodBoundariesPrivateRoomCount = json.load(file)
+
 countInNeighbourhood = (
     finalizedData.groupby(['neighbourhood_cleansed', 'price_category']).size().unstack(fill_value=0).reindex(columns = ["Budget", "Average", "Expensive"], fill_value=0)
 )
@@ -40,3 +46,44 @@ for feature in bostonNeighborhoodBoundariesCleaned["features"]:
 
 with open('../finalizedData/bostonNeighborhoodBoundariesCleaned.geojson', 'w') as newfile:
     json.dump(bostonNeighborhoodBoundariesCleaned, newfile)
+
+finalizedDataEntireHomes = finalizedData[finalizedData['room_type'] == "Entire home/apt"]
+countInNeighbourhoodEntireHomes = (
+    finalizedDataEntireHomes.groupby(['neighbourhood_cleansed', 'price_category']).size().unstack(fill_value=0).reindex(columns = ["Budget", "Average", "Expensive"], fill_value=0)
+)
+countInNeighbourhoodEntireHomes = countInNeighbourhoodEntireHomes.rename(index={"Longwood Medical Area" : "Longwood"})
+print(countInNeighbourhoodEntireHomes)
+
+for feature in bostonNeighborhoodBoundariesEntireHomeCount["features"]:
+     name = feature["properties"]["name"]
+     if name in countInNeighbourhoodEntireHomes.index:
+         row = countInNeighbourhoodEntireHomes.loc[name]
+         feature["properties"] = {
+             "name": name,
+             "Budget": int(row["Budget"]),
+             "Average": int(row["Average"]),
+             "Expensive": int(row["Expensive"])
+         }
+
+with open('../finalizedData/bostonNeighborhoodBoundariesEntireHomeCount.geojson', 'w') as newfile:
+    json.dump(bostonNeighborhoodBoundariesEntireHomeCount, newfile)
+
+finalizedDataRooms = finalizedData[finalizedData['room_type'] == "Private room"]
+countInNeighbourhoodRooms = (
+    finalizedDataRooms.groupby(['neighbourhood_cleansed', 'price_category']).size().unstack(fill_value=0).reindex(columns = ["Budget", "Average", "Expensive"], fill_value=0)
+)
+countInNeighbourhoodRooms = countInNeighbourhoodRooms.rename(index={"Longwood Medical Area" : "Longwood"})
+print(countInNeighbourhoodRooms)
+
+for feature in bostonNeighborhoodBoundariesPrivateRoomCount["features"]:
+     name = feature["properties"]["name"]
+     if name in countInNeighbourhoodRooms.index:
+         row = countInNeighbourhoodRooms.loc[name]
+         feature["properties"] = {
+             "name": name,
+             "Budget": int(row["Budget"]),
+             "Average": int(row["Average"]),
+             "Expensive": int(row["Expensive"])
+         }
+with open('../finalizedData/bostonNeighborhoodBoundariesPrivateRoomCount.geojson', 'w') as newfile:
+    json.dump(bostonNeighborhoodBoundariesPrivateRoomCount, newfile)

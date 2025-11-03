@@ -28,10 +28,18 @@ plt.show()
     #Map Creation (Methods)
     ##############################################################################
         #Neighborhood Overlay
-neighborhoodPathNoCounts = "../finalizedData/bostonNeighborhoodBoundariesCleanedNoCounts.geojson"
-with open(neighborhoodPathNoCounts) as f:
-    neighborhood_data = json.load(f)
 
+        #EntireHome Counts
+neighborhoodEntireHomeCounts = "../finalizedData/bostonNeighborhoodBoundariesEntireHomeCount.geojson"
+with open(neighborhoodEntireHomeCounts) as f:
+    neighborhoodEntireHomeCounts_data = json.load(f)
+
+neighborhoodPrivateRoomCounts = "../finalizedData/bostonNeighborhoodBoundariesPrivateRoomCount.geojson"
+with open(neighborhoodPrivateRoomCounts) as f:
+    neighborhoodPrivateRoomCounts_data = json.load(f)
+
+
+        #Counts for Everything
 neighborhoodPathCounts = "../finalizedData/bostonNeighborhoodBoundariesCleaned.geojson"
 with open(neighborhoodPathCounts) as f:
     neighborhoodData_test = json.load(f)
@@ -103,11 +111,11 @@ for listings, row in finalizedData.iterrows():
 
 
 map2.add_geojson(
-    in_geojson = neighborhoodPathNoCounts,
+    in_geojson = neighborhoodPrivateRoomCounts,
     layer_name = "Neighborhoods"
 )
 map2.add_labels(
-    data = neighborhoodPathNoCounts,
+    data = neighborhoodPrivateRoomCounts,
     column = "name",
     font_size= "12pt",
     font_color = "Black",
@@ -140,11 +148,11 @@ for listings, row in finalizedData.iterrows():
 
 
 map3.add_geojson(
-    in_geojson = neighborhoodPathNoCounts,
+    in_geojson = neighborhoodEntireHomeCounts,
     layer_name = "Neighborhoods"
 )
 map3.add_labels(
-    data = neighborhoodPathNoCounts,
+    data = neighborhoodEntireHomeCounts,
     column = "name",
     font_size= "12pt",
     font_color = "Black",
