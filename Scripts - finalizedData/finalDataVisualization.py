@@ -38,6 +38,10 @@ neighborhoodPrivateRoomCounts = "../finalizedData/bostonNeighborhoodBoundariesPr
 with open(neighborhoodPrivateRoomCounts) as f:
     neighborhoodPrivateRoomCounts_data = json.load(f)
 
+neighborhoodSharedRoomCounts = '../finalizedData/bostonNeighborhoodBoundariesSharedRoomCount.geojson'
+with open(neighborhoodSharedRoomCounts) as f:
+    neighborhoodSharedRoomCounts_data = json.load(f)
+
 
         #Counts for Everything
 neighborhoodPathCounts = "../finalizedData/bostonNeighborhoodBoundariesEverythingCount.geojson"
@@ -87,7 +91,7 @@ map1.add_labels(
     font_family= "Times New Roman"
 )
 
-
+map1.add_title("Airbnb Boston Price Categorization")
 map1.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
 LayerControl().add_to(map1)
 map1.save("../ModelsandDiagrams/mapOfDataCategoryDistribution.html")
@@ -125,6 +129,7 @@ map2.add_labels(
 )
 
 
+map2.add_title("Private Room Price Categorization")
 map2.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
 
 map2.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(PrivateRooms).html")
@@ -161,8 +166,43 @@ map3.add_labels(
 
 )
 
+map3.add_title("Entire Home Price Categorization")
 map3.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
 map3.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(EntireHomeOrApt).html")
 ########################################################################################
+#Fourth Map (Shared Rooms)
+##############################################################################
+map4 = leafmap.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
+
+for listings, row in finalizedData.iterrows():
+    if(row['room_type'] == "Shared room"):
+        folium.CircleMarker(
+            location=(row['latitude'], row['longitude']),
+            radius=5,
+            color=colorization(row['price_category']),
+            fill=True,
+            fill_opacity=0.7,
+            opacity=1
+        ).add_to(map4)
+
+
+
+map4.add_geojson(
+    in_geojson = neighborhoodSharedRoomCounts,
+    layer_name = "Neighborhoods"
+)
+map4.add_labels(
+    data = neighborhoodSharedRoomCounts,
+    column = "name",
+    font_size= "12pt",
+    font_color = "Black",
+    font_weight = "bold",
+    font_family="Times New Roman"
+
+)
+
+map4.add_title("Shared Room Price Categorization")
+map4.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
+map4.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(SharedRoom).html")
 
 
