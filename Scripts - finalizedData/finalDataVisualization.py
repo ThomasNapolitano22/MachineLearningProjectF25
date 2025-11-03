@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import folium as folium
 import leafmap.foliumap as leafmap
 import json
+from folium import LayerControl
 
 finalizedData = pd.read_csv('../finalizedData/finalizedData.csv')
 centerlatitude = finalizedData['latitude'].mean()
@@ -76,6 +77,7 @@ map1.add_labels(
 
 
 map1.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
+LayerControl().add_to(map1)
 map1.save("../ModelsandDiagrams/mapOfDataCategoryDistribution.html")
 
 ##############################################################################
