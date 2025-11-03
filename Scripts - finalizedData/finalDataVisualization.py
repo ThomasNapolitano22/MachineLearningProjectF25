@@ -40,7 +40,7 @@ with open(neighborhoodPrivateRoomCounts) as f:
 
 
         #Counts for Everything
-neighborhoodPathCounts = "../finalizedData/bostonNeighborhoodBoundariesCleaned.geojson"
+neighborhoodPathCounts = "../finalizedData/bostonNeighborhoodBoundariesEverythingCount.geojson"
 with open(neighborhoodPathCounts) as f:
     neighborhoodData_test = json.load(f)
 

@@ -3,7 +3,7 @@ import pandas as pd
 
 finalizedData = pd.read_csv('../finalizedData/FinalizedData.csv')
 
-with open('../finalizedData/boston_neighborhood_boundaries.geojson', 'r') as file:
+with open('../originalData/boston_neighborhood_boundaries.geojson', 'r') as file:
     bostonNeighborhoodBoundariesCleaned = json.load(file)
 
     propertiesToRemove = ["OBJECTID","acres","neighborhood_id","sqmiles","Shape_Length","Shape_Area","shape_wkt"]
@@ -13,13 +13,13 @@ with open('../finalizedData/boston_neighborhood_boundaries.geojson', 'r') as fil
             if property in feature["properties"]:
                 del feature["properties"][property]
 
-with open('../finalizedData/bostonNeighborhoodBoundariesCleanedNoCounts.geojson', 'w') as newfile:
+with open('../cleanedData/bostonNeighborhoodBoundariesCleaned.geojson', 'w') as newfile:
     json.dump(bostonNeighborhoodBoundariesCleaned, newfile)
 
-with open('../finalizedData/bostonNeighborhoodBoundariesCleanedNoCounts.geojson', 'r') as file:
+with open('../cleanedData/bostonNeighborhoodBoundariesCleaned.geojson', 'r') as file:
     bostonNeighborhoodBoundariesEntireHomeCount = json.load(file)
 
-with open('../finalizedData/bostonNeighborhoodBoundariesCleanedNoCounts.geojson', 'r') as file:
+with open('../cleanedData/bostonNeighborhoodBoundariesCleaned.geojson', 'r') as file:
     bostonNeighborhoodBoundariesPrivateRoomCount = json.load(file)
 
 countInNeighbourhood = (
@@ -44,7 +44,7 @@ for feature in bostonNeighborhoodBoundariesCleaned["features"]:
 
 
 
-with open('../finalizedData/bostonNeighborhoodBoundariesCleaned.geojson', 'w') as newfile:
+with open('../finalizedData/bostonNeighborhoodBoundariesEverythingCount.geojson', 'w') as newfile:
     json.dump(bostonNeighborhoodBoundariesCleaned, newfile)
 
 finalizedDataEntireHomes = finalizedData[finalizedData['room_type'] == "Entire home/apt"]
