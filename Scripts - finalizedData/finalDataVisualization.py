@@ -5,7 +5,9 @@ import folium as folium
 import leafmap.foliumap as leafmap
 import json
 from folium import LayerControl, FeatureGroup
+import seaborn as sns
 
+cleanedData = pd.read_csv("../cleanedData/cleanedListings.csv")
 finalizedData = pd.read_csv('../finalizedData/finalizedData.csv')
 centerlatitude = finalizedData['latitude'].mean()
 centerlongitude = finalizedData['longitude'].mean()
@@ -18,6 +20,28 @@ labels = ['Budget', 'Average', 'Expensive']
 plt.pie(finalizedData['price_category'].value_counts(), labels=finalizedData['price_category'].value_counts().index, autopct='%1.1f%%')
 plt.title("Finalized Data - Categorization Distribution")
 plt.savefig("../ModelsandDiagrams/PieChartDistributionPriceCategories.png")
+plt.show()
+
+##############################################################################
+#Box Plot Chart
+##############################################################################
+
+sns.boxplot(x=cleanedData['neighbourhood_cleansed'], y=cleanedData['price'])
+plt.title("Boxplot of Price vs. Different Neighborhoods")
+plt.xticks(rotation=90)
+plt.xlabel("Neighborhoods")
+plt.ylabel("Price per Night")
+plt.tight_layout()
+plt.show()
+
+##############################################################################
+#Scatter Plot Chart
+##############################################################################
+sns.boxplot(x=cleanedData['room_type'], y= cleanedData['price'])
+plt.title("Relationship between Price and Room Type")
+plt.xlabel("Room Type")
+plt.ylabel("Price")
+plt.tight_layout()
 plt.show()
 
 ##############################################################################
