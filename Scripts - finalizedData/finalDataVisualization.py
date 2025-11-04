@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import folium as folium
 import leafmap.foliumap as leafmap
 import json
-from folium import LayerControl
+from folium import LayerControl, FeatureGroup
 
 finalizedData = pd.read_csv('../finalizedData/finalizedData.csv')
 centerlatitude = finalizedData['latitude'].mean()
@@ -28,6 +28,11 @@ plt.show()
     #Map Creation (Methods)
     ##############################################################################
         #Neighborhood Overlay
+
+        #No Counts
+neighborhoodNoCounts = "../cleanedData/bostonNeighborhoodBoundariesCleaned.geojson"
+with open(neighborhoodNoCounts) as f:
+    neighborhoodNoCounts_data = json.load(f)
 
         #EntireHome Counts
 neighborhoodEntireHomeCounts = "../finalizedData/bostonNeighborhoodBoundariesEntireHomeCount.geojson"
@@ -171,7 +176,7 @@ map3.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
 map3.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(EntireHomeOrApt).html")
 ########################################################################################
 #Fourth Map (Shared Rooms)
-##############################################################################
+########################################################################################
 map4 = leafmap.Map(location= [centerlatitude, centerlongitude], zoom_start= 10)
 
 for listings, row in finalizedData.iterrows():
@@ -205,4 +210,87 @@ map4.add_title("Shared Room Price Categorization")
 map4.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
 map4.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(SharedRoom).html")
 
+########################################################################################
+#Master Map (All the data but with layers?)
+########################################################################################
+map5 = leafmap.Map(center = [centerlatitude, centerlongitude], zoom_start= 10)
+
+#featureGroups
+featureGroupEntireHomeAptBudget = folium.FeatureGroup(name="Entire Home or Apartment - Budget")
+featureGroupEntireHomeAptAverage = folium.FeatureGroup(name="Entire Home or Apartment - Average")
+featureGroupEntireHomeAptExpensive = folium.FeatureGroup(name="Entire Home or Apartment - Expensive")
+
+featureGroupPrivateRoomBudget = folium.FeatureGroup(name="Private Room - Budget")
+featureGroupPrivateRoomAverage = folium.FeatureGroup(name="Private Room - Average")
+featureGroupPrivateRoomExpensive = folium.FeatureGroup(name="Private Room - Expensive")
+
+featureGroupSharedRoomBudget = folium.FeatureGroup(name="Shared Room - Budget")
+featureGroupSharedRoomAverage = folium.FeatureGroup(name="Shared Room - Average")
+featureGroupSharedRoomExpensive = folium.FeatureGroup(name="Shared Room - Expensive")
+
+for listing, row in finalizedData.iterrows():
+    priceCategory = row['price_category']
+    roomType = row['room_type']
+
+    circleMarker = folium.CircleMarker(
+        location=(row['latitude'], row['longitude']),
+        radius=5,
+        color=colorization(row['price_category']),
+        fill=True,
+        fill_opacity=0.7,
+        opacity=1
+    )
+
+    if(roomType == "Entire home/apt" and priceCategory == "Budget"):
+        circleMarker.add_to(featureGroupEntireHomeAptBudget)
+    elif(roomType == "Entire home/apt" and priceCategory == "Average"):
+        circleMarker.add_to(featureGroupEntireHomeAptAverage)
+    elif(roomType == "Entire home/apt" and priceCategory == "Expensive"):
+        circleMarker.add_to(featureGroupEntireHomeAptExpensive)
+
+    elif(roomType == "Private room" and priceCategory == "Budget"):
+        circleMarker.add_to(featureGroupPrivateRoomBudget)
+    elif (roomType == "Private room" and priceCategory == "Average"):
+        circleMarker.add_to(featureGroupPrivateRoomAverage)
+    elif (roomType == "Private room" and priceCategory == "Expensive"):
+        circleMarker.add_to(featureGroupPrivateRoomExpensive)
+
+    elif (roomType == "Shared room" and priceCategory == "Budget"):
+        circleMarker.add_to(featureGroupSharedRoomBudget)
+    elif (roomType == "Shared room" and priceCategory == "Average"):
+        circleMarker.add_to(featureGroupSharedRoomAverage)
+    elif (roomType == "Shared room" and priceCategory == "Expensive"):
+        circleMarker.add_to(featureGroupSharedRoomExpensive)
+
+map5.add_child(featureGroupEntireHomeAptBudget)
+map5.add_child(featureGroupEntireHomeAptAverage)
+map5.add_child(featureGroupEntireHomeAptExpensive)
+map5.add_child(featureGroupPrivateRoomBudget)
+map5.add_child(featureGroupPrivateRoomAverage)
+map5.add_child(featureGroupPrivateRoomExpensive)
+map5.add_child(featureGroupSharedRoomBudget)
+map5.add_child(featureGroupSharedRoomAverage)
+map5.add_child(featureGroupSharedRoomExpensive)
+
+
+
+map5.add_geojson(
+    in_geojson = neighborhoodNoCounts,
+    layer_name = "Neighborhoods"
+)
+
+map5.add_labels(
+    data = neighborhoodNoCounts,
+    column = "name",
+    font_size= "12pt",
+    font_color = "Black",
+    font_weight = "bold",
+    font_family="Times New Roman"
+
+)
+
+map5.add_layer_control()
+map5.add_title("Master Map Price Categorization")
+map5.add_legend(title="Price Categorization", legend_dict=legend_dictionary)
+map5.save("../ModelsandDiagrams/mapOfDataCategoryDistribution(MasterMap).html")
 
