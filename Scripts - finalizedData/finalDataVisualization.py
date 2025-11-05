@@ -32,6 +32,7 @@ plt.xticks(rotation=90)
 plt.xlabel("Neighborhoods")
 plt.ylabel("Price per Night")
 plt.tight_layout()
+plt.savefig("../ModelsandDiagrams/BoxPlotOfPriceVs.DifferentNeighborhoods.png")
 plt.show()
 
 ##############################################################################
@@ -42,6 +43,7 @@ plt.title("Relationship between Price and Room Type")
 plt.xlabel("Room Type")
 plt.ylabel("Price")
 plt.tight_layout()
+plt.savefig("../ModelsandDiagrams/BoxPlotOfPriceVs.RoomType.png")
 plt.show()
 
 ##############################################################################
